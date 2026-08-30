@@ -1,5 +1,5 @@
 [build]
-  command = "node scripts/safe-patch.js && node scripts/fix-camp-labels.js"
+  command = "node scripts/safe-patch.js && node scripts/contact-patch.js && node scripts/fix-camp-labels.js"
   publish = "."
 
 [[headers]]
