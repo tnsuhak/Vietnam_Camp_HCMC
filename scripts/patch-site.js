@@ -11,6 +11,18 @@ function mustReplace(html, from, to, label, all=false) {
   return all ? html.split(from).join(to) : html.replace(from, to);
 }
 
+function clarifyCampHeader(html, otherCity) {
+  html = html.replace(/2027 WINTER(?! CAMP)/g, '2027 WINTER CAMP');
+  html = html.replace(/2027\s*<em>Winter<\/em>/g, '2027 <em>Winter Camp</em>');
+  html = html.replace(/2027 Winter(?! Camp)/g, '2027 Winter Camp');
+  if (otherCity === 'nt') {
+    html = html.replace(/>\s*나트랑 캠프\s*→\s*</g, '>나트랑 캠프도 보기 →<');
+  } else {
+    html = html.replace(/>\s*호치민 캠프\s*→\s*</g, '>호치민 캠프도 보기 →<');
+  }
+  return html;
+}
+
 function addVideoStyles(html) {
   const css = `\n<style id="field-video-styles">\n.field-video{padding:44px 0;background:var(--paper-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}\n.field-video__box{max-width:900px;margin:0 auto}.field-video video{display:block;width:100%;background:#061728;border-radius:18px;box-shadow:var(--shadow)}\n.field-video__meta{margin-top:14px}.field-video__meta h3{font-size:19px}.field-video__meta p{margin:6px 0 0;color:var(--muted);font-size:13.5px}\n.school-life{padding:52px 0;background:#fff}.school-life .facts{margin-top:22px}\n</style>\n`;
   return mustReplace(html, '</head>', css + '</head>', 'head close');
@@ -18,6 +30,7 @@ function addVideoStyles(html) {
 
 function hcmcPatch(html) {
   html = mustReplace(html, 'https://YOUR-DOMAIN-HERE/', HCMC_URL, 'HCMC canonical/og URL', true);
+  html = clarifyCampHeader(html, 'nt');
   html = addVideoStyles(html);
 
   const schoolLife = `\n<section class="school-life" aria-labelledby="school-life-title">\n  <div class="wrap">\n    <div class="sec-head">\n      <p class="eyebrow">School life & parent updates</p>\n      <h2 id="school-life-title">학교에 있는 동안에도,<br>아이의 하루를 확인합니다.</h2>\n      <p class="lead">TAS의 학교생활은 수업만으로 끝나지 않습니다. 디지털 학습도구와 학부모 소통 시스템을 통해 학교생활과 학습 진행 상황을 확인할 수 있습니다.</p>\n    </div>\n    <div class="facts">\n      <div class="fact"><h4><span>Parent App</span>Toddle 학부모 앱</h4><p>학생 활동 사진, 과제, 교사 피드백과 학습 진행 상황을 학부모와 공유하는 데 활용됩니다.</p></div>\n      <div class="fact"><h4><span>Digital Learning</span>학생별 iPad 활용</h4><p>수업 자료와 디지털 학습도구를 수업과 과제에 활용합니다.</p></div>\n      <div class="fact"><h4><span>Campus Life</span>Student ID Card</h4><p>학교 출입 체크인과 Cafeteria 이용 등 일상적인 캠퍼스 생활에 사용됩니다.</p></div>\n    </div>\n  </div>\n</section>\n\n<section class="field-video" aria-labelledby="hcmc-video-title">\n  <div class="wrap field-video__box">\n    <p class="eyebrow">Previous programme footage</p>\n    <video controls playsinline preload="metadata" src="/media/hcmc-tas-2026.mp4" aria-label="2026 호치민 TAS 프로그램 현장 영상"></video>\n    <div class="field-video__meta"><h3 id="hcmc-video-title">지난 프로그램 현장 영상</h3><p>2026년 실제 프로그램에서 촬영한 영상입니다. 학교와 수업 환경을 참고해 주세요.</p></div>\n  </div>\n</section>\n`;
@@ -31,6 +44,7 @@ function hcmcPatch(html) {
 
 function ntPatch(html) {
   html = mustReplace(html, 'https://YOUR-DOMAIN-HERE/nhatrang.html', NT_URL, 'NT canonical/og URL', true);
+  html = clarifyCampHeader(html, 'hcmc');
   html = addVideoStyles(html);
   html = mustReplace(html, '08:30 ~ 16:45', '08:30 ~ 16:30', 'AVE schedule', true);
   html = mustReplace(html, '08:30 ~ 15:40', '08:30 ~ 15:00', 'Kid Castle schedule', true);
@@ -78,6 +92,6 @@ function get(url) {
   fs.writeFileSync('nhatrang.html', ntPatch(ntRaw));
 
   fs.writeFileSync('robots.txt', `User-agent: *\nAllow: /\n\nSitemap: ${HCMC_URL}sitemap.xml\n`);
-  fs.writeFileSync('sitemap.xml', `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n  <url><loc>${HCMC_URL}</loc><lastmod>2026-08-30</lastmod></url>\n  <url><loc>${NT_URL}</loc><lastmod>2026-08-30</lastmod></url>\n</urlset>\n`);
+  fs.writeFileSync('sitemap.xml', `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/sitemap/0.9">\n  <url><loc>${HCMC_URL}</loc><lastmod>2026-08-30</lastmod></url>\n  <url><loc>${NT_URL}</loc><lastmod>2026-08-30</lastmod></url>\n</urlset>\n`);
   console.log(`Patched HCMC + Nha Trang (${NT_REF}) and generated robots/sitemap.`);
 })();
