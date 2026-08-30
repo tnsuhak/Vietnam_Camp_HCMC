@@ -1,0 +1,9 @@
+[build]
+  command = "node scripts/patch-site.js"
+  publish = "."
+
+[[headers]]
+  for = "/media/*.mp4"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+    Content-Type = "video/mp4"
