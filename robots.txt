@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://tnsuhak.github.io/Vietnam_Camp_HCMC/sitemap.xml
