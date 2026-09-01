@@ -1,9 +1,3 @@
 [build]
-  command = "node scripts/safe-patch.js && node scripts/contact-patch.js && node scripts/fix-camp-labels.js && node scripts/seo-build-fix.js && node scripts/promo-patch.js"
+  command = "node scripts/safe-patch.js && node scripts/contact-patch.js && node scripts/fix-camp-labels.js && node scripts/seo-build-fix.js && node scripts/promo-patch.js && node scripts/youtube-video-patch.js"
   publish = "."
-
-[[headers]]
-  for = "/media/*.mp4"
-  [headers.values]
-    Cache-Control = "public, max-age=31536000, immutable"
-    Content-Type = "video/mp4"
