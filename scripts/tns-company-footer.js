@@ -37,7 +37,7 @@ const footer = `<footer class="tns-company-footer" aria-label="TNS유학 회사 
 </footer>`;
 
 function removeRedundantInquiryLinks(html){
-  html = html.replace(/<a\b[^>]*href=(["'])[^"']*#inquiry\1[^>]*>\s*\[?\s*(?:카카오톡 상담 링크|네이버 카페\/블로그 링크)\s*\]?\s*<\/a>/gi, '');
+  html = html.replace(/<a\b[^>]*href=(["'])[^"']*#inquiry\1[^>]*>[\s\S]*?(?:카카오톡 상담 링크|네이버 카페\/블로그 링크)[\s\S]*?<\/a>/gi, '');
   html = html.replace(/<li\b[^>]*>\s*<\/li>/gi, '');
   html = html.replace(/<p\b[^>]*>\s*(?:[|·•-]\s*)*<\/p>/gi, '');
   return html;
@@ -62,8 +62,11 @@ if (existingFooter.test(html)) {
 for (const expected of ['TNS유학','㈜티앤에스월드와이드','220-87-54964','tns@tnsuhak.com','02-3288-1733~1735']) {
   if (!html.includes(expected)) throw new Error('Missing TNS company footer output: ' + expected);
 }
-if (/카카오톡 상담 링크|네이버 카페\/블로그 링크/.test(html)) {
-  throw new Error('Redundant inquiry link labels remain after footer patch');
+
+const renderedFooter = html.match(/<footer\b[^>]*class=["'][^"']*tns-company-footer[^"']*["'][^>]*>[\s\S]*?<\/footer>/i);
+if (!renderedFooter) throw new Error('Missing rendered TNS company footer');
+if (/#inquiry|카카오톡 상담 링크|네이버 카페\/블로그 링크/.test(renderedFooter[0])) {
+  throw new Error('TNS company footer still contains redundant inquiry links');
 }
 
 fs.writeFileSync(FILE, html);
