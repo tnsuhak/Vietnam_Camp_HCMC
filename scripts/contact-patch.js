@@ -1,8 +1,9 @@
 const fs = require('fs');
 
 const KAKAO = 'https://open.kakao.com/o/slehLvKi';
-const PHONE_HREF = 'tel:0232881733';
-const PHONE_DISPLAY = '02-3288-1733~1735';
+const PHONE_HREF = 'tel:01051500105';
+const PHONE_DISPLAY = '010-5150-0105';
+const OFFICE_PHONE = '02-3288-1733~1735';
 const CAFE = 'https://cafe.naver.com/tnsuhak.cafe';
 const HOME = 'https://tnsuhak.com/';
 
@@ -15,17 +16,14 @@ const styles = `
 .tns-direct-contact h2{margin:0;font-family:var(--font-display,inherit);font-size:clamp(32px,5vw,58px);line-height:1.08;letter-spacing:-.035em;color:#fff}
 .tns-direct-contact__lead{max-width:680px;margin:18px 0 30px;color:rgba(255,255,255,.74);font-size:16px;line-height:1.75}
 .tns-direct-contact__primary{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;max-width:900px}
-.tns-direct-contact__card{min-width:0;min-height:92px;padding:20px 22px;border-radius:18px;display:flex;align-items:center;gap:15px;text-decoration:none;transition:transform .18s ease}
-.tns-direct-contact__card:hover{transform:translateY(-2px)}
+.tns-direct-contact__card{min-width:0;min-height:92px;padding:20px 22px;border-radius:18px;display:flex;align-items:center;gap:15px;text-decoration:none;transition:transform .18s ease}.tns-direct-contact__card:hover{transform:translateY(-2px)}
 .tns-direct-contact__card--kakao{background:#fee500;color:#191919}.tns-direct-contact__card--phone{background:#fff;color:#0b2942}
 .tns-direct-contact__icon{width:46px;height:46px;border-radius:50%;display:grid;place-items:center;flex:0 0 46px;font-size:21px;background:rgba(11,41,66,.09)}
 .tns-direct-contact__text{min-width:0;display:flex;flex-direction:column;gap:3px}.tns-direct-contact__text b{font-size:18px;line-height:1.25}.tns-direct-contact__text small{font-size:13px;opacity:.68;line-height:1.35}.tns-direct-contact__arrow{margin-left:auto;font-size:19px;font-weight:800}
 .tns-direct-contact__secondary{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px;max-width:900px}.tns-direct-contact__secondary a{min-height:48px;padding:12px 16px;border:1px solid rgba(255,255,255,.22);border-radius:999px;display:inline-flex;align-items:center;gap:8px;color:#fff;text-decoration:none;font-size:14px;font-weight:750;background:rgba(255,255,255,.06)}
-.tns-contact-info{max-width:900px;margin-top:30px;padding-top:26px;border-top:1px solid rgba(255,255,255,.16)}
-.tns-contact-info__grid{display:grid;grid-template-columns:1fr 1.35fr;gap:18px}.tns-contact-info__box{padding:19px 20px;border:1px solid rgba(255,255,255,.14);border-radius:16px;background:rgba(255,255,255,.055)}
+.tns-contact-info{max-width:900px;margin-top:30px;padding-top:26px;border-top:1px solid rgba(255,255,255,.16)}.tns-contact-info__grid{display:grid;grid-template-columns:1fr 1.35fr;gap:18px}.tns-contact-info__box{padding:19px 20px;border:1px solid rgba(255,255,255,.14);border-radius:16px;background:rgba(255,255,255,.055)}
 .tns-contact-info__box h3{margin:0 0 11px;color:#fff;font-size:15px;letter-spacing:-.01em}.tns-contact-info__box p{margin:4px 0;color:rgba(255,255,255,.72);font-size:12.8px;line-height:1.7}.tns-contact-info__box b{color:#fff}.tns-contact-info__box a{color:#fff;text-decoration:underline;text-underline-offset:2px}
-@media(max-width:720px){.tns-direct-contact{padding:58px 0}.tns-direct-contact__primary,.tns-contact-info__grid{grid-template-columns:1fr}.tns-direct-contact__card{min-height:82px;padding:17px 18px}.tns-direct-contact__secondary{display:grid;grid-template-columns:1fr 1fr}.tns-direct-contact__secondary a{justify-content:center;padding:11px 10px;font-size:13px}}
-@media(max-width:390px){.tns-direct-contact__secondary{grid-template-columns:1fr}}
+@media(max-width:720px){.tns-direct-contact{padding:58px 0}.tns-direct-contact__primary,.tns-contact-info__grid{grid-template-columns:1fr}.tns-direct-contact__card{min-height:82px;padding:17px 18px}.tns-direct-contact__secondary{display:grid;grid-template-columns:1fr 1fr}.tns-direct-contact__secondary a{justify-content:center;padding:11px 10px;font-size:13px}}@media(max-width:390px){.tns-direct-contact__secondary{grid-template-columns:1fr}}
 </style>`;
 
 function contactSection(city) {
@@ -40,35 +38,24 @@ function contactSection(city) {
       <a class="tns-direct-contact__card tns-direct-contact__card--phone" href="${PHONE_HREF}"><span class="tns-direct-contact__icon" aria-hidden="true">☎</span><span class="tns-direct-contact__text"><b>전화 상담</b><small>${PHONE_DISPLAY}</small></span><span class="tns-direct-contact__arrow" aria-hidden="true">→</span></a>
     </div>
     <div class="tns-direct-contact__secondary" aria-label="TNS 바로가기"><a href="${CAFE}" target="_blank" rel="noopener">Naver <span>TNS 네이버 카페</span> ↗</a><a href="${HOME}" target="_blank" rel="noopener">TNS <span>홈페이지</span> ↗</a></div>
-    <div class="tns-contact-info" aria-label="TNS유학 상담처 및 사업자 정보">
-      <div class="tns-contact-info__grid">
-        <div class="tns-contact-info__box"><h3>한국 공식 상담 · 등록처</h3><p><b>TNS유학</b> · ㈜티앤에스월드와이드</p><p>상담전화 <a href="${PHONE_HREF}">${PHONE_DISPLAY}</a></p><p>이메일 <a href="mailto:tns@tnsuhak.com">tns@tnsuhak.com</a></p></div>
-        <div class="tns-contact-info__box"><h3>사업자 정보</h3><p>대표 신윤옥 · 사업자등록번호 220-87-54964</p><p><b>서울본사</b> 서울시 강남구 테헤란로 5길 7 KG타워 B1 (06134)</p><p><b>부산지사</b> 부산 부산진구 중앙대로 694 쥬디스태화 9층 37호 (47295)</p><p>해외지사 · Toronto · Vancouver · Calgary · Vietnam-Ho Chi Minh</p></div>
-      </div>
-    </div>
+    <div class="tns-contact-info" aria-label="TNS유학 상담처 및 사업자 정보"><div class="tns-contact-info__grid">
+      <div class="tns-contact-info__box"><h3>한국 공식 상담 · 등록처</h3><p><b>TNS유학</b> · ㈜티앤에스월드와이드</p><p>상담전화 <a href="${PHONE_HREF}">${PHONE_DISPLAY}</a></p><p>이메일 <a href="mailto:tns@tnsuhak.com">tns@tnsuhak.com</a></p></div>
+      <div class="tns-contact-info__box"><h3>사업자 정보</h3><p>대표 신윤옥 · 사업자등록번호 220-87-54964</p><p><b>서울본사</b> 서울시 강남구 테헤란로 5길 7 KG타워 B1 (06134) · ${OFFICE_PHONE}</p><p><b>부산지사</b> 부산 부산진구 중앙대로 694 쥬디스태화 9층 37호 (47295) · 010-9501-8180</p><p>해외지사 · Toronto · Vancouver · Calgary · Vietnam-Ho Chi Minh</p></div>
+    </div></div>
   </div>
 </section>`;
 }
 
 function patch(html, city) {
-  if (!html.includes('id="tns-direct-contact-styles"')) {
-    if (!html.includes('</head>')) throw new Error('Missing </head> for contact styles: ' + city);
-    html = html.replace('</head>', styles + '\n</head>');
-  }
+  if (!html.includes('id="tns-direct-contact-styles"')) {if (!html.includes('</head>')) throw new Error('Missing </head> for contact styles: ' + city);html = html.replace('</head>', styles + '\n</head>');}
   const inquiry = /<section\b(?=[^>]*\bid=["']inquiry["'])[^>]*>[\s\S]*?<\/section>/i;
   if (!inquiry.test(html)) throw new Error('Could not find inquiry section to replace: ' + city);
   html = html.replace(inquiry, contactSection(city));
-  for (const expected of [KAKAO, PHONE_HREF, CAFE, HOME, 'TNS유학', '㈜티앤에스월드와이드', '220-87-54964']) {
-    if (!html.includes(expected)) throw new Error('Missing contact output for ' + city + ': ' + expected);
-  }
+  for (const expected of [KAKAO, PHONE_HREF, CAFE, HOME, 'TNS유학', '㈜티앤에스월드와이드', '220-87-54964', OFFICE_PHONE]) if (!html.includes(expected)) throw new Error('Missing contact output for ' + city + ': ' + expected);
   return html;
 }
 
-let hcmc = fs.readFileSync('index.html', 'utf8');
-hcmc = patch(hcmc, '호치민');
-fs.writeFileSync('index.html', hcmc);
+let hcmc = fs.readFileSync('index.html', 'utf8');hcmc = patch(hcmc, '호치민');fs.writeFileSync('index.html', hcmc);
 if (!fs.existsSync('nhatrang.html')) throw new Error('Missing generated nhatrang.html');
-let nt = fs.readFileSync('nhatrang.html', 'utf8');
-nt = patch(nt, '나트랑');
-fs.writeFileSync('nhatrang.html', nt);
+let nt = fs.readFileSync('nhatrang.html', 'utf8');nt = patch(nt, '나트랑');fs.writeFileSync('nhatrang.html', nt);
 console.log('Embedded TNS consultation and business information inside both inquiry sections.');
