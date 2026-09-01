@@ -37,13 +37,13 @@ const radio = (id,name,checked=false) => `<input class="tns-rb-radio" type="radi
 
 const schedPrefix = `tns-${key}-schedule`;
 const scheduleBlock = `<div class="tns-rb-schedule" aria-label="프로그램 기간 선택">
-${radio(`${schedPrefix}-2`,schedPrefix)}${radio(`${schedPrefix}-3`,schedPrefix)}${radio(`${schedPrefix}-4`,schedPrefix,true)}
+${radio(`${schedPrefix}-2`,schedPrefix,true)}${radio(`${schedPrefix}-3`,schedPrefix)}${radio(`${schedPrefix}-4`,schedPrefix)}
 <div class="tns-rb-tabs tns-rb-tabs--weeks">${[2,3,4].map(w=>`<label class="tns-rb-chip" for="${schedPrefix}-${w}">${w}주</label>`).join('')}</div>
 <div class="dates tns-rb-schedule-panels">${[2,3,4].map(w=>`<div class="tns-rb-schedule-panel tns-rb-schedule-panel--${w}">${schedules[w].map(d=>`<div class="date"><b>${d}</b><span>${w} WEEKS</span></div>`).join('')}</div>`).join('')}</div>
 </div>`;
 
 const wPrefix=`tns-${key}-cost-w`, fPrefix=`tns-${key}-cost-f`;
-const costInputs=[radio(`${wPrefix}2`,`tns-${key}-cost-weeks`),radio(`${wPrefix}3`,`tns-${key}-cost-weeks`),radio(`${wPrefix}4`,`tns-${key}-cost-weeks`,true),...families.map((f,i)=>radio(`${fPrefix}-${f.id}`,`tns-${key}-cost-family`,i===0))].join('');
+const costInputs=[radio(`${wPrefix}2`,`tns-${key}-cost-weeks`,true),radio(`${wPrefix}3`,`tns-${key}-cost-weeks`),radio(`${wPrefix}4`,`tns-${key}-cost-weeks`),...families.map((f,i)=>radio(`${fPrefix}-${f.id}`,`tns-${key}-cost-family`,i===0))].join('');
 const weekLabels=[2,3,4].map(w=>`<label class="tns-rb-chip" for="${wPrefix}${w}">${w}주</label>`).join('');
 const familyLabels=families.map(f=>`<label class="tns-rb-chip tns-rb-family-chip" for="${fPrefix}-${f.id}">${f.label}</label>`).join('');
 const results=[2,3,4].flatMap(w=>families.map(f=>`<div class="tns-rb-result tns-rb-result--w${w}-${f.id}">${f.rooms.map(r=>`<div class="room"><span class="room__name">${r.room}<small>${r.sub}</small></span><span class="room__won">$${money(r.price[w])}<sub>USD / ${w}주</sub></span></div>`).join('')}<p class="note" style="margin:6px 0 0">${f.label} · ${w}주 기준</p></div>`)).join('');
@@ -82,4 +82,4 @@ if(html.includes('data-sched="hcm"')||html.includes('data-price="hcm"')) throw n
 if(!html.includes('tns-hcm-schedule-2')||!html.includes('tns-hcm-cost-w2')||!html.includes('tns-hcm-cost-f-p1c1')) throw new Error('Rebuilt HCMC selector markup is incomplete');
 if(!html.includes('2027.02.14 ~ 02.27')||!html.includes('$17,200')) throw new Error('Expected 2027 HCMC schedule/price data is missing');
 fs.writeFileSync(FILE,html);
-console.log('Rebuilt HCMC duration and price selector from scratch with CSS-only controls.');
+console.log('Rebuilt HCMC duration and price selector from scratch with CSS-only controls; default is 2 weeks.');
