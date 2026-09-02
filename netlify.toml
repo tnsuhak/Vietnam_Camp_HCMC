@@ -1,0 +1,3 @@
+[build]
+  command = "node scripts/safe-patch.js && node scripts/contact-patch.js && node scripts/fix-camp-labels.js && node scripts/seo-build-fix.js && node scripts/promo-patch.js && node scripts/youtube-video-patch.js && node scripts/legacy-video-iframe-patch.js && node scripts/faq-20-patch.js && node scripts/bar-visibility-fix.js && node scripts/standalone-site-finalize.js && node scripts/tns-company-footer.js && node scripts/final-ui-fixes.js && node scripts/rebuild-period-price.js && node scripts/remove-footer-partner-copy.js && node scripts/flight-time-patch.js && node scripts/remove-obsolete-schedule-note.js"
+  publish = "."

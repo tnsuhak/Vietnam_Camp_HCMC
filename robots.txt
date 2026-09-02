@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://vietnam-camp-hcmc.netlify.app/sitemap.xml
